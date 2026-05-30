@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BlogController;
 
+Route::get('/', [BlogController::class, 'index']);
+Route::get('/post/{slug}', [BlogController::class, 'show']);
 Route::get('/', function () {
     return view('welcome');
 });
