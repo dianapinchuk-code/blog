@@ -20,4 +20,13 @@ class BlogPost extends Model
         'is_published',
         'published_at',
     ];
+    public function category()
+    {
+        return $this->belongsTo(BlogCategory::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
