@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Blog\Admin;
 
 use App\Repositories\BlogPostRepository;
-use App\Repositories\BlogCategoryRepository; 
+use App\Repositories\BlogCategoryRepository;
 use App\Http\Requests\BlogPostUpdateRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
