@@ -46,4 +46,25 @@ class BlogPostObserver
             $blogPost->slug = Str::slug($blogPost->title);
         }
     }
+    public function creating(BlogPost $blogPost)
+    {
+        $this->setPublishedAt($blogPost);
+        $this->setSlug($blogPost);
+        $this->setHtml($blogPost);
+        $this->setUser($blogPost);
+    }
+
+    protected function setHtml(BlogPost $blogPost)
+    {
+        if ($blogPost->isDirty('content_raw')) {
+            // Імітуємо генерацію HTML з сирого тексту
+            $blogPost->content_html = $blogPost->content_raw;
+        }
+    }
+
+    protected function setUser(BlogPost $blogPost)
+    {
+        // Якщо юзер не залогінений, ставимо ID 1
+        $blogPost->user_id = auth()->id() ?? BlogPost::UNKNOWN_USER;
+    }
 }
