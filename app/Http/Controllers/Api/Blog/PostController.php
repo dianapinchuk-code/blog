@@ -40,7 +40,13 @@ class PostController extends BaseController
      */
     public function show(string $id)
     {
-        //
+        $item = \App\Models\BlogPost::with(['user:id,name', 'category:id,title'])->find($id);
+
+        if (empty($item)) {
+            return response()->json(['message' => 'Пост не знайдено'], 404);
+        }
+
+        return $item;
     }
 
     /**

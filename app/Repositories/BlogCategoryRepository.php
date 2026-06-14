@@ -45,4 +45,13 @@ class BlogCategoryRepository extends CoreRepository
 
         return $result;
     }
+    public function getOne($id)
+    {
+        return $this->startConditions()
+            ->with([
+                'category:id,title',
+                'user:id,name',
+            ])
+            ->find($id);
+    }
 }
