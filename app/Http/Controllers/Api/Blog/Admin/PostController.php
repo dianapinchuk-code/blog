@@ -7,10 +7,9 @@ use App\Repositories\BlogCategoryRepository;
 use App\Http\Requests\BlogPostUpdateRequest;
 use App\Http\Requests\BlogPostCreateRequest;
 use App\Models\BlogPost;
-// 1. Додаємо імпорт Jobs (Завдань)
+use App\Http\Resources\Api\Blog\Admin\PostResource;
 use App\Jobs\BlogPostAfterCreateJob;
 use App\Jobs\BlogPostAfterDeleteJob;
-// 2. Додаємо трейт для роботи з чергами
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Str;
 
@@ -28,7 +27,9 @@ class PostController extends BaseController
 
     public function index()
     {
-        return $this->blogPostRepository->getAllWithPaginate();
+        $paginator = $this->blogPostRepository->getAllWithPaginate();
+
+        return PostResource::collection($paginator);
     }
 
     public function store(BlogPostCreateRequest $request)
