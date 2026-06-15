@@ -10,7 +10,6 @@ use App\Http\Resources\Api\Blog\Admin\CategoryResource;
 
 class CategoryController extends BaseController
 {
-    // Конструктор, який автоматично підключає репозиторій
     public function __construct(private BlogCategoryRepository $blogCategoryRepository)
     {
         parent::__construct();
@@ -18,14 +17,13 @@ class CategoryController extends BaseController
 
     public function index()
     {
-        // Тепер запит іде через репозиторій
+
         $paginator = $this->blogCategoryRepository->getAllWithPaginate(5);
         return CategoryResource::collection($paginator);
     }
 
     public function update(BlogCategoryUpdateRequest $request, $id)
     {
-        // Тепер пошук іде через репозиторій
         $item = $this->blogCategoryRepository->getEdit($id);
 
         if (empty($item)) {
@@ -51,11 +49,20 @@ class CategoryController extends BaseController
             $data['slug'] = Str::slug($data['title']);
         }
 
-        // Тут можна залишити пряме створення або теж винести в репозиторій (але за лабою так)
         $item = (new \App\Models\BlogCategory())->create($data);
 
         return $item
             ? ['success' => true, 'message' => 'Успішно збережено']
             : ['message' => 'Помилка збереження'];
+    }
+    public function show($id)
+    {
+        $item = $this->blogCategoryRepository->getEdit($id);
+
+        if (empty($item)) {
+            return response()->json(['message' => 'Запис не знайдено'], 404);
+        }
+
+        return new CategoryResource($item);
     }
 }

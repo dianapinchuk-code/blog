@@ -21,14 +21,14 @@ $groupData = [
 
 Route::group($groupData, function () {
 
-    $methods = ['index', 'store', 'update'];
+    $methods = ['index', 'store', 'update','show', 'destroy'];
     Route::apiResource('categories', AdminCategoryController::class)
         ->only($methods)
         ->names('blog.admin.categories');
 
     // Пости
     Route::apiResource('posts', AdminPostController::class)
-        ->except(['show'])
+      //  ->except(['show'])
         ->names('blog.admin.posts');
 });
 Route::prefix('digging_deeper')->group(function () {
